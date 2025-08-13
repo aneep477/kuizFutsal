@@ -34,7 +34,7 @@
         <div id="login-screen" class="bg-white p-8 rounded-xl shadow-lg text-center">
             <!-- Logo Futsal -->
             <div class="flex justify-center mb-6">
-                <img id="logo" src="https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO" alt="Logo Futsal" class="rounded-full w-24 h-24">
+                <img id="logo" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
             </div>
             <h1 class="text-3xl font-bold text-blue-600 mb-2">MPU 3421-Futsal</h1>
             <p class="text-gray-600 mb-6">Uji pengetahuan anda tentang Undang-Undang Permainan Futsal.</p>
@@ -62,6 +62,7 @@
                     <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
                     <div id="score-counter" class="text-sm font-semibold text-blue-600"></div>
                 </div>
+                <div id="timer-display" class="text-center text-sm font-bold text-red-600 mb-4">Masa: 10:00</div>
                 <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
                     <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
                 </div>
@@ -83,7 +84,7 @@
         <div id="result-screen" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
              <!-- Logo Futsal -->
             <div class="flex justify-center mb-6">
-                <img id="logo-result" src="https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO" alt="Logo Futsal" class="rounded-full w-24 h-24">
+                <img id="logo-result" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
             </div>
             <h2 class="text-3xl font-bold text-blue-600 mb-2">Kuiz Selesai!</h2>
             <div class="text-left mb-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
@@ -109,56 +110,9 @@
     <script>
         // URL Google Apps Script anda yang telah di-deploy
         const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbyEMxwJIfeJb5bXySA7YXJPe3W2zp3m9GvjGpY0dMBDrG0r9RJghsrczTzGgxPXfpGe/exec';
-
-        // Fungsi untuk mengambil data pelajar dari Google Sheets
-        async function fetchStudentData(rollNumber) {
-            try {
-                const response = await fetch(`${googleAppsScriptUrl}?action=getStudents`);
-                const studentData = await response.json();
-                const student = studentData[rollNumber.toUpperCase()];
-                
-                if (student) {
-                    return student;
-                } else {
-                    throw new Error('Pelajar tidak ditemui.');
-                }
-            } catch (error) {
-                console.error('Ralat fetching data pelajar:', error);
-                throw error;
-            }
-        }
-
-        // Fungsi untuk menyimpan markah ke Google Sheets
-        async function saveScore(rollNumber, score) {
-            const payload = {
-                action: 'saveScore',
-                rollNumber: rollNumber,
-                score: score
-            };
-            
-            try {
-                const response = await fetch(googleAppsScriptUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    console.log('Markah berjaya disimpan:', data);
-                    return true;
-                } else {
-                    console.error('Gagal menyimpan markah:', data);
-                    return false;
-                }
-            } catch (error) {
-                console.error('Ralat rangkaian semasa menyimpan markah:', error);
-                return false;
-            }
-        }
-
+        
+        // Tetapan kuiz
+        const quizDuration = 600; // Masa kuiz dalam saat (10 minit)
         const quizData = [
             {
                 question: "Berapakah lebar semua garisan di atas padang futsal mengikut piawaian?",
@@ -354,6 +308,7 @@
         const studentNameDisplay = document.getElementById('student-name');
         const studentClassDisplay = document.getElementById('student-class');
         const loadingSpinner = document.getElementById('loading-spinner');
+        const timerDisplay = document.getElementById('timer-display');
 
         const questionCounter = document.getElementById('question-counter');
         const scoreCounter = document.getElementById('score-counter');
@@ -377,7 +332,8 @@
         let score = 0;
         let userRollNumber = '';
         let currentStudent = null;
-        let hasFocusedAway = false;
+        let timerInterval;
+        let timeLeft = quizDuration;
 
         // Fungsi untuk mengaktifkan mod skrin penuh
         function enterFullScreen() {
@@ -391,6 +347,33 @@
                 document.documentElement.msRequestFullscreen();
             }
         }
+
+        // Fungsi untuk memulakan pemasa
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Masa tamat! Kuiz akan ditamatkan.");
+                    showResults();
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // Fungsi untuk menghentikan pemasa
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+        
+        // Fungsi untuk mengemas kini paparan pemasa
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `Masa: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
 
         // Fungsi untuk memulakan kuiz
         function startQuiz() {
@@ -406,6 +389,8 @@
             quizScreen.classList.remove('hidden');
             currentQuestionIndex = 0;
             score = 0;
+            timeLeft = quizDuration;
+            startTimer();
             displayQuestion();
         }
 
@@ -474,6 +459,7 @@
 
         // Fungsi untuk menunjukkan keputusan
         async function showResults() {
+            stopTimer(); // Hentikan pemasa apabila kuiz selesai
             quizScreen.classList.add('hidden');
             resultScreen.classList.remove('hidden');
             
