@@ -58,11 +58,11 @@
         <!-- Skrin Kuiz -->
         <div id="quiz-screen" class="hidden">
             <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0">
                     <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
+                    <div id="timer-display" class="text-sm font-bold text-red-600">Masa: 10:00</div>
                     <div id="score-counter" class="text-sm font-semibold text-blue-600"></div>
                 </div>
-                <div id="timer-display" class="text-center text-sm font-bold text-red-600 mb-4">Masa: 10:00</div>
                 <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
                     <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
                 </div>
@@ -334,6 +334,7 @@
         let currentStudent = null;
         let timerInterval;
         let timeLeft = quizDuration;
+        let hasCheated = false; // Flag untuk mengesan penipuan
 
         // Fungsi untuk mengaktifkan mod skrin penuh
         function enterFullScreen() {
@@ -347,21 +348,7 @@
                 document.documentElement.msRequestFullscreen();
             }
         }
-
-        // Fungsi untuk memulakan pemasa
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Masa tamat! Kuiz akan ditamatkan.");
-                    showResults();
-                }
-                updateTimerDisplay();
-            }, 1000);
-        }
-
+        
         // Fungsi untuk menghentikan pemasa
         function stopTimer() {
             clearInterval(timerInterval);
@@ -373,7 +360,20 @@
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `Masa: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
-
+        
+        // Fungsi untuk memulakan pemasa
+        function startTimer() {
+            stopTimer(); // Clear any existing timer
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    alert("Masa tamat! Kuiz akan ditamatkan.");
+                    showResults();
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
 
         // Fungsi untuk memulakan kuiz
         function startQuiz() {
@@ -390,6 +390,7 @@
             currentQuestionIndex = 0;
             score = 0;
             timeLeft = quizDuration;
+            hasCheated = false;
             startTimer();
             displayQuestion();
         }
@@ -478,6 +479,10 @@
             } else {
                 message = "Jangan putus asa. Cuba lagi untuk tingkatkan pemahaman anda.";
             }
+            
+            if (hasCheated) {
+                message += " (Kuiz ditamatkan lebih awal kerana melanggar peraturan)";
+            }
             resultMessage.textContent = message;
 
             // Simpan markah ke Google Sheets
@@ -544,23 +549,21 @@
         // Skrip untuk mengesan tumpuan halaman (anti-cheating)
         document.addEventListener("visibilitychange", function() {
             if (document.hidden && !document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                if (window.confirm("Amaran: Kuiz akan ditamatkan jika anda beralih tetingkap atau aplikasi. Adakah anda ingin teruskan?")) {
-                    // Do nothing, allow them to continue
-                } else {
-                    alert("Kuiz ditamatkan kerana anda cuba beralih halaman.");
-                    showResults(); // Tamatkan kuiz secara paksa
-                }
+                if (!hasCheated && !window.confirm("Amaran: Kuiz akan ditamatkan jika anda beralih tetingkap atau aplikasi. Adakah anda ingin teruskan?")) {
+                     hasCheated = true;
+                     alert("Kuiz ditamatkan kerana anda cuba beralih halaman.");
+                     showResults(); // Tamatkan kuiz secara paksa
+                 }
             }
         });
 
         // Mengesan apabila pengguna keluar dari mod skrin penuh
         document.addEventListener("fullscreenchange", function() {
             if (!document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                 if (window.confirm("Amaran: Keluar dari mod skrin penuh akan menamatkan kuiz. Adakah anda ingin teruskan?")) {
-                    // Do nothing, allow them to continue
-                } else {
-                    alert("Kuiz ditamatkan kerana anda cuba keluar dari mod skrin penuh.");
-                    showResults(); // Tamatkan kuiz secara paksa
+                 if (!hasCheated && !window.confirm("Amaran: Keluar dari mod skrin penuh akan menamatkan kuiz. Adakah anda ingin teruskan?")) {
+                     hasCheated = true;
+                     alert("Kuiz ditamatkan kerana anda cuba keluar dari mod skrin penuh.");
+                     showResults(); // Tamatkan kuiz secara paksa
                 }
             }
         });
