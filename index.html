@@ -60,7 +60,7 @@
             <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0">
                     <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
-                    <div id="timer-display" class="text-sm font-bold text-red-600">Masa: 10:00</div>
+                    <!-- Pemasa diabaikan seperti yang diminta -->
                     <div id="score-counter" class="text-sm font-semibold text-blue-600"></div>
                 </div>
                 <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
@@ -112,7 +112,6 @@
         const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbyEMxwJIfeJb5bXySA7YXJPe3W2zp3m9GvjGpY0dMBDrG0r9RJghsrczTzGgxPXfpGe/exec';
         
         // Tetapan kuiz
-        const quizDuration = 600; // Masa kuiz dalam saat (10 minit)
         const quizData = [
             {
                 question: "Berapakah lebar semua garisan di atas padang futsal mengikut piawaian?",
@@ -308,7 +307,6 @@
         const studentNameDisplay = document.getElementById('student-name');
         const studentClassDisplay = document.getElementById('student-class');
         const loadingSpinner = document.getElementById('loading-spinner');
-        const timerDisplay = document.getElementById('timer-display');
 
         const questionCounter = document.getElementById('question-counter');
         const scoreCounter = document.getElementById('score-counter');
@@ -316,6 +314,7 @@
         const questionText = document.getElementById('question-text');
         const answerOptions = document.getElementById('answer-options');
         const nextQuestionBtn = document.getElementById('next-question-btn');
+        const timerDisplay = document.getElementById('timer-display');
         
         const feedbackSection = document.getElementById('feedback-section');
         const feedbackText = document.getElementById('feedback-text');
@@ -332,9 +331,56 @@
         let score = 0;
         let userRollNumber = '';
         let currentStudent = null;
-        let timerInterval;
-        let timeLeft = quizDuration;
         let hasCheated = false; // Flag untuk mengesan penipuan
+
+        // Fungsi untuk mengambil data pelajar dari Google Sheets
+        async function fetchStudentData(rollNumber) {
+            try {
+                const response = await fetch(`${googleAppsScriptUrl}?action=getStudents`);
+                const studentData = await response.json();
+                const student = studentData[rollNumber.toUpperCase()];
+                
+                if (student) {
+                    return student;
+                } else {
+                    throw new Error('Pelajar tidak ditemui.');
+                }
+            } catch (error) {
+                console.error('Ralat fetching data pelajar:', error);
+                throw error;
+            }
+        }
+
+        // Fungsi untuk menyimpan markah ke Google Sheets
+        async function saveScore(rollNumber, score) {
+            const payload = {
+                action: 'saveScore',
+                rollNumber: rollNumber,
+                score: score
+            };
+            
+            try {
+                const response = await fetch(googleAppsScriptUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    console.log('Markah berjaya disimpan:', data);
+                    return true;
+                } else {
+                    console.error('Gagal menyimpan markah:', data);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Ralat rangkaian semasa menyimpan markah:', error);
+                return false;
+            }
+        }
 
         // Fungsi untuk mengaktifkan mod skrin penuh
         function enterFullScreen() {
@@ -347,32 +393,6 @@
             } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
                 document.documentElement.msRequestFullscreen();
             }
-        }
-        
-        // Fungsi untuk menghentikan pemasa
-        function stopTimer() {
-            clearInterval(timerInterval);
-        }
-        
-        // Fungsi untuk mengemas kini paparan pemasa
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `Masa: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        // Fungsi untuk memulakan pemasa
-        function startTimer() {
-            stopTimer(); // Clear any existing timer
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    stopTimer();
-                    alert("Masa tamat! Kuiz akan ditamatkan.");
-                    showResults();
-                }
-                updateTimerDisplay();
-            }, 1000);
         }
 
         // Fungsi untuk memulakan kuiz
@@ -389,9 +409,7 @@
             quizScreen.classList.remove('hidden');
             currentQuestionIndex = 0;
             score = 0;
-            timeLeft = quizDuration;
             hasCheated = false;
-            startTimer();
             displayQuestion();
         }
 
@@ -460,7 +478,6 @@
 
         // Fungsi untuk menunjukkan keputusan
         async function showResults() {
-            stopTimer(); // Hentikan pemasa apabila kuiz selesai
             quizScreen.classList.add('hidden');
             resultScreen.classList.remove('hidden');
             
