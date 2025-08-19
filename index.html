@@ -30,11 +30,9 @@
 
     <div id="app-container" class="w-full max-w-2xl mx-auto">
         
-        <!-- Skrin Login -->
         <div id="login-screen" class="bg-white p-8 rounded-xl shadow-lg text-center">
-            <!-- Logo Futsal -->
             <div class="flex justify-center mb-6">
-                <img id="logo" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
+                <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a6/FIFA_Futsal_Referee.png?20190128003637" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
             </div>
             <h1 class="text-3xl font-bold text-blue-600 mb-2">MPU 3421-Futsal</h1>
             <p class="text-gray-600 mb-6">Uji pengetahuan anda tentang Undang-Undang Permainan Futsal.</p>
@@ -55,12 +53,10 @@
             </button>
         </div>
 
-        <!-- Skrin Kuiz -->
         <div id="quiz-screen" class="hidden">
             <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0">
                     <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
-                    <!-- Pemasa diabaikan seperti yang diminta -->
                     <div id="score-counter" class="text-sm font-semibold text-blue-600"></div>
                 </div>
                 <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
@@ -68,8 +64,7 @@
                 </div>
                 <h2 id="question-text" class="text-xl sm:text-2xl font-bold mb-6 min-h-[6rem]"></h2>
                 <div id="answer-options" class="grid grid-cols-1 gap-4">
-                    <!-- Pilihan Jawapan akan dimasukkan di sini oleh JS -->
-                </div>
+                    </div>
                 <div id="feedback-section" class="mt-6 hidden">
                      <p id="feedback-text" class="text-lg font-bold mb-2"></p>
                      <p id="rationale-text" class="text-sm text-gray-700 p-3 rounded-lg"></p>
@@ -80,11 +75,9 @@
             </div>
         </div>
 
-        <!-- Skrin Keputusan -->
         <div id="result-screen" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
-             <!-- Logo Futsal -->
-            <div class="flex justify-center mb-6">
-                <img id="logo-result" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
+             <div class="flex justify-center mb-6">
+                <img id="logo-result" src="https://upload.wikimedia.org/wikipedia/commons/a/a6/FIFA_Futsal_Referee.png?20190128003637" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
             </div>
             <h2 class="text-3xl font-bold text-blue-600 mb-2">Kuiz Selesai!</h2>
             <div class="text-left mb-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
@@ -253,338 +246,4 @@
             },
             {
                 question: "Apakah isyarat pengadil untuk 'advantage' selepas satu kesalahan terkumpul dilakukan?",
-                options: ["Meniup wisel dengan kuat", "Mengangkat kedua-dua tangan ke atas", "Menunjuk ke arah hadapan dengan kedua-dua tangan", "Menunjuk ke arah hadapan dengan satu tangan sambil memberi isyarat kesalahan terkumpul dengan tangan lain"],
-                answer: "Menunjuk ke arah hadapan dengan kedua-dua tangan",
-                rationale: "Pengadil akan menghulurkan kedua-dua tangan ke hadapan untuk memberi isyarat 'advantage' dibenarkan."
-            },
-            {
-                question: "Dalam prosedur penggantian, bilakah seorang pemain ganti dibenarkan memasuki padang?",
-                options: ["Pada bila-bila masa", "Selepas mendapat isyarat dari pengadil", "Hanya selepas pemain yang diganti telah keluar sepenuhnya dari padang", "Apabila bola berada paling dekat dengan zon penggantian"],
-                answer: "Hanya selepas pemain yang diganti telah keluar sepenuhnya dari padang",
-                rationale: "Ini adalah peraturan asas dalam prosedur penggantian untuk memastikan bilangan pemain yang betul di atas padang."
-            },
-            {
-                question: "Apakah warna jersi penjaga gol berbanding pemain lain dalam pasukannya?",
-                options: ["Mestilah sama", "Mestilah berbeza", "Boleh sama atau berbeza", "Mestilah warna gelap"],
-                answer: "Mestilah berbeza",
-                rationale: "Warna jersi penjaga gol mesti berbeza daripada pemain lain dan juga pengadil untuk memudahkan pengecaman."
-            },
-            {
-                question: "Apakah keputusan jika pemain melakukan kesalahan yang boleh dihukum dengan kad kuning di luar padang semasa bola dalam permainan?",
-                options: ["Tiada tindakan diambil", "Pemain diberi amaran lisan sahaja", "Pemain ditunjukkan kad kuning dan permainan dimulakan semula dengan 'dropped ball'", "Pemain ditunjukkan kad kuning dan sepakan percuma diberikan"],
-                answer: "Pemain ditunjukkan kad kuning dan permainan dimulakan semula dengan 'dropped ball'",
-                rationale: "Salah laku di luar padang semasa permainan masih boleh dihukum. Permainan dimulakan semula dengan 'dropped ball' kerana kesalahan tidak berlaku di atas padang."
-            },
-            {
-                question: "Berapakah panjang maksimum tempoh masa tambahan jika diperlukan?",
-                options: ["Dua separuh masa, 3 minit setiap satu", "Dua separuh masa, 5 minit setiap satu", "Satu separuh masa 10 minit", "Bergantung pada keputusan pengadil"],
-                answer: "Dua separuh masa, 5 minit setiap satu",
-                rationale: "Jika masa tambahan diperlukan, ia biasanya terdiri daripada dua tempoh 5 minit setiap satu."
-            },
-            {
-                question: "Semasa sepakan dari tanda penalti untuk menentukan pemenang, berapakah bilangan sepakan awal yang diambil oleh setiap pasukan?",
-                options: ["3", "5", "6", "1"],
-                answer: "5",
-                rationale: "Prosedur standard ialah setiap pasukan mengambil 5 sepakan secara berselang-seli untuk menentukan pemenang."
-            },
-            {
-                question: "Jika pemain dengan sengaja meninggalkan padang tanpa kebenaran pengadil, apakah hukumannya?",
-                options: ["Tiada hukuman", "Amaran lisan", "Kad kuning", "Kad merah"],
-                answer: "Kad kuning",
-                rationale: "Meninggalkan padang dengan sengaja tanpa kebenaran dianggap sebagai tingkah laku tidak sportif dan dihukum dengan kad kuning."
-            }
-        ];
-
-
-        // Rujukan Elemen DOM
-        const loginScreen = document.getElementById('login-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
-
-        const startQuizBtn = document.getElementById('start-quiz-btn');
-        const rollNumberInput = document.getElementById('roll-number');
-        const studentInfoDisplay = document.getElementById('student-info-display');
-        const studentNameDisplay = document.getElementById('student-name');
-        const studentClassDisplay = document.getElementById('student-class');
-        const loadingSpinner = document.getElementById('loading-spinner');
-
-        const questionCounter = document.getElementById('question-counter');
-        const scoreCounter = document.getElementById('score-counter');
-        const progressBar = document.getElementById('progress-bar');
-        const questionText = document.getElementById('question-text');
-        const answerOptions = document.getElementById('answer-options');
-        const nextQuestionBtn = document.getElementById('next-question-btn');
-        const timerDisplay = document.getElementById('timer-display');
-        
-        const feedbackSection = document.getElementById('feedback-section');
-        const feedbackText = document.getElementById('feedback-text');
-        const rationaleText = document.getElementById('rationale-text');
-
-        const resultUserName = document.getElementById('result-user-name');
-        const resultUserClass = document.getElementById('result-user-class');
-        const finalScore = document.getElementById('final-score');
-        const scorePercentage = document.getElementById('score-percentage');
-        const resultMessage = document.getElementById('result-message');
-        const restartQuizBtn = document.getElementById('restart-quiz-btn');
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let userRollNumber = '';
-        let currentStudent = null;
-        let hasCheated = false; // Flag untuk mengesan penipuan
-
-        // Fungsi untuk mengambil data pelajar dari Google Sheets
-        async function fetchStudentData(rollNumber) {
-            try {
-                const response = await fetch(`${googleAppsScriptUrl}?action=getStudents`);
-                const studentData = await response.json();
-                const student = studentData[rollNumber.toUpperCase()];
-                
-                if (student) {
-                    return student;
-                } else {
-                    throw new Error('Pelajar tidak ditemui.');
-                }
-            } catch (error) {
-                console.error('Ralat fetching data pelajar:', error);
-                throw error;
-            }
-        }
-
-        // Fungsi untuk menyimpan markah ke Google Sheets
-        async function saveScore(rollNumber, score) {
-            const payload = {
-                action: 'saveScore',
-                rollNumber: rollNumber,
-                score: score
-            };
-            
-            try {
-                const response = await fetch(googleAppsScriptUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    console.log('Markah berjaya disimpan:', data);
-                    return true;
-                } else {
-                    console.error('Gagal menyimpan markah:', data);
-                    return false;
-                }
-            } catch (error) {
-                console.error('Ralat rangkaian semasa menyimpan markah:', error);
-                return false;
-            }
-        }
-
-        // Fungsi untuk mengaktifkan mod skrin penuh
-        function enterFullScreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                document.documentElement.msRequestFullscreen();
-            }
-        }
-
-        // Fungsi untuk memulakan kuiz
-        function startQuiz() {
-            if (!currentStudent) {
-                alert('Sila masukkan nombor angka giliran yang sah terlebih dahulu.');
-                return;
-            }
-            
-            // Masuk ke mod skrin penuh apabila kuiz dimulakan
-            enterFullScreen();
-            
-            loginScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            currentQuestionIndex = 0;
-            score = 0;
-            hasCheated = false;
-            displayQuestion();
-        }
-
-        // Fungsi untuk memaparkan soalan
-        function displayQuestion() {
-            resetState();
-            const currentQuestion = quizData[currentQuestionIndex];
-            questionText.textContent = currentQuestion.question;
-            questionCounter.textContent = `Soalan ${currentQuestionIndex + 1} / ${quizData.length}`;
-            scoreCounter.textContent = `Skor: ${score}`;
-            
-            const progress = ((currentQuestionIndex) / quizData.length) * 100;
-            progressBar.style.width = `${progress}%`;
-
-            currentQuestion.options.forEach(option => {
-                const button = document.createElement('button');
-                button.textContent = option;
-                button.classList.add('w-full', 'text-left', 'p-4', 'border', 'border-gray-300', 'rounded-lg', 'hover:bg-gray-100', 'transition-colors', 'duration-200');
-                button.addEventListener('click', () => selectAnswer(button, option, currentQuestion.answer, currentQuestion.rationale));
-                answerOptions.appendChild(button);
-            });
-        }
-        
-        // Fungsi untuk reset state antara soalan
-        function resetState() {
-            answerOptions.innerHTML = '';
-            nextQuestionBtn.classList.add('hidden');
-            feedbackSection.classList.add('hidden');
-            feedbackText.textContent = '';
-            rationaleText.textContent = '';
-            rationaleText.className = 'text-sm text-gray-700 p-3 rounded-lg';
-        }
-
-        // Fungsi apabila jawapan dipilih
-        function selectAnswer(button, selectedOption, correctAnswer, rationale) {
-            Array.from(answerOptions.children).forEach(btn => {
-                btn.disabled = true; // Disable semua butang selepas jawapan dipilih
-                if (btn.textContent === correctAnswer) {
-                    btn.classList.add('correct');
-                } else {
-                    btn.classList.add('opacity-60');
-                }
-            });
-
-            feedbackSection.classList.remove('hidden');
-
-            if (selectedOption === correctAnswer) {
-                score++;
-                button.classList.add('correct');
-                feedbackText.textContent = "Betul!";
-                feedbackText.classList.add('text-green-600');
-                feedbackText.classList.remove('text-red-600');
-                rationaleText.classList.add('bg-green-50', 'rationale-correct');
-            } else {
-                button.classList.add('incorrect');
-                feedbackText.textContent = "Salah!";
-                feedbackText.classList.add('text-red-600');
-                feedbackText.classList.remove('text-green-600');
-                rationaleText.classList.add('bg-red-50', 'rationale-incorrect');
-            }
-            
-            rationaleText.textContent = `Penjelasan: ${rationale}`;
-            scoreCounter.textContent = `Skor: ${score}`;
-            nextQuestionBtn.classList.remove('hidden');
-        }
-
-        // Fungsi untuk menunjukkan keputusan
-        async function showResults() {
-            quizScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-            
-            resultUserName.textContent = currentStudent.name;
-            resultUserClass.textContent = currentStudent.class;
-            
-            finalScore.textContent = `${score} / ${quizData.length}`;
-            const percentage = Math.round((score / quizData.length) * 100);
-            scorePercentage.textContent = `(${percentage}%)`;
-
-            let message = '';
-            if (percentage >= 80) {
-                message = "Cemerlang! Pengetahuan anda tentang undang-undang futsal sangat hebat.";
-            } else if (percentage >= 50) {
-                message = "Baik! Anda mempunyai pemahaman yang baik, teruskan belajar.";
-            } else {
-                message = "Jangan putus asa. Cuba lagi untuk tingkatkan pemahaman anda.";
-            }
-            
-            if (hasCheated) {
-                message += " (Kuiz ditamatkan lebih awal kerana melanggar peraturan)";
-            }
-            resultMessage.textContent = message;
-
-            // Simpan markah ke Google Sheets
-            await saveScore(userRollNumber, score);
-        }
-        
-        // Fungsi untuk ke soalan seterusnya
-        function handleNextButton() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
-                displayQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        // Event listener untuk memaparkan butiran pelajar semasa input
-        rollNumberInput.addEventListener('input', async (e) => {
-            userRollNumber = e.target.value.trim().toUpperCase();
-            if (userRollNumber.length > 0) {
-                loadingSpinner.classList.remove('hidden');
-                startQuizBtn.disabled = true;
-                
-                try {
-                    const student = await fetchStudentData(userRollNumber);
-                    currentStudent = student;
-                    studentNameDisplay.textContent = student.name;
-                    studentClassDisplay.textContent = student.class;
-                    studentInfoDisplay.classList.remove('hidden');
-                    startQuizBtn.disabled = false;
-                } catch (error) {
-                    currentStudent = null;
-                    studentNameDisplay.textContent = 'Nombor angka giliran tidak sah.';
-                    studentClassDisplay.textContent = '';
-                    studentInfoDisplay.classList.remove('hidden');
-                    startQuizBtn.disabled = true;
-                } finally {
-                    loadingSpinner.classList.add('hidden');
-                }
-            } else {
-                studentNameDisplay.textContent = '';
-                studentClassDisplay.textContent = '';
-                studentInfoDisplay.classList.add('hidden');
-                startQuizBtn.disabled = true;
-            }
-        });
-
-
-        // Fungsi untuk memulakan semula kuiz
-        function restartQuiz() {
-            resultScreen.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-            rollNumberInput.value = '';
-            studentInfoDisplay.classList.add('hidden');
-            currentStudent = null;
-            startQuizBtn.disabled = true;
-        }
-
-        // Event Listeners
-        startQuizBtn.addEventListener('click', startQuiz);
-        nextQuestionBtn.addEventListener('click', handleNextButton);
-        restartQuizBtn.addEventListener('click', restartQuiz);
-
-        // Skrip untuk mengesan tumpuan halaman (anti-cheating)
-        document.addEventListener("visibilitychange", function() {
-            if (document.hidden && !document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                if (!hasCheated && !window.confirm("Amaran: Kuiz akan ditamatkan jika anda beralih tetingkap atau aplikasi. Adakah anda ingin teruskan?")) {
-                     hasCheated = true;
-                     alert("Kuiz ditamatkan kerana anda cuba beralih halaman.");
-                     showResults(); // Tamatkan kuiz secara paksa
-                 }
-            }
-        });
-
-        // Mengesan apabila pengguna keluar dari mod skrin penuh
-        document.addEventListener("fullscreenchange", function() {
-            if (!document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                 if (!hasCheated && !window.confirm("Amaran: Keluar dari mod skrin penuh akan menamatkan kuiz. Adakah anda ingin teruskan?")) {
-                     hasCheated = true;
-                     alert("Kuiz ditamatkan kerana anda cuba keluar dari mod skrin penuh.");
-                     showResults(); // Tamatkan kuiz secara paksa
-                }
-            }
-        });
-
-    </script>
-</body>
-</html>
+                options: ["Meniup wisel dengan kuat", "Meng
