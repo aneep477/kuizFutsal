@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
@@ -32,11 +32,7 @@
         
         <!-- Skrin Login -->
         <div id="login-screen" class="bg-white p-8 rounded-xl shadow-lg text-center">
-            <!-- Logo Futsal -->
-            <div class="flex justify-center mb-6">
-                <img id="logo" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
-            </div>
-            <h1 class="text-3xl font-bold text-blue-600 mb-2">MPU 3421-Futsal</h1>
+            <h1 class="text-3xl font-bold text-blue-600 mb-2">Selamat Datang ke Kuiz Futsal</h1>
             <p class="text-gray-600 mb-6">Uji pengetahuan anda tentang Undang-Undang Permainan Futsal.</p>
             <div class="mb-4">
                 <label for="roll-number" class="block text-sm font-medium text-gray-700 mb-2">Sila masukkan nombor angka giliran anda:</label>
@@ -58,9 +54,8 @@
         <!-- Skrin Kuiz -->
         <div id="quiz-screen" class="hidden">
             <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0">
+                <div class="flex justify-between items-center mb-4">
                     <div id="question-counter" class="text-sm font-semibold text-gray-500"></div>
-                    <!-- Pemasa diabaikan seperti yang diminta -->
                     <div id="score-counter" class="text-sm font-semibold text-blue-600"></div>
                 </div>
                 <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
@@ -82,10 +77,6 @@
 
         <!-- Skrin Keputusan -->
         <div id="result-screen" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
-             <!-- Logo Futsal -->
-            <div class="flex justify-center mb-6">
-                <img id="logo-result" src="https://scontent.fkul16-1.fna.fbcdn.net/v/t39.30808-1/436302132_122099320082329089_2215456546373894648_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=am1RbZ9CdpoQ7kNvwHC0C6S&_nc_oc=AdnxKqHkkKlFgSH4HRsut1LlMwOXjldICP1kZw-AnSTmgpUyGne_1OolC_yun1c-k5o&_nc_zt=24&_nc_ht=scontent.fkul16-1.fna&_nc_gid=AwcQFicHjhUjvq8SozNJCA&oh=00_AfX3-f1nIm7w2X5ZrirxPQr8CkDtsadq1IKNpY2ryoW0Yw&oe=689D1450" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=FUTSAL+LOGO';" alt="Logo Futsal" class="rounded-full w-24 h-24">
-            </div>
             <h2 class="text-3xl font-bold text-blue-600 mb-2">Kuiz Selesai!</h2>
             <div class="text-left mb-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
                 <p class="text-sm font-medium text-blue-700">Keputusan untuk:</p>
@@ -110,8 +101,56 @@
     <script>
         // URL Google Apps Script anda yang telah di-deploy
         const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbyEMxwJIfeJb5bXySA7YXJPe3W2zp3m9GvjGpY0dMBDrG0r9RJghsrczTzGgxPXfpGe/exec';
-        
-        // Tetapan kuiz
+
+        // Fungsi untuk mengambil data pelajar dari Google Sheets
+        async function fetchStudentData(rollNumber) {
+            try {
+                const response = await fetch(`${googleAppsScriptUrl}?action=getStudents`);
+                const studentData = await response.json();
+                const student = studentData[rollNumber.toUpperCase()];
+                
+                if (student) {
+                    return student;
+                } else {
+                    throw new Error('Pelajar tidak ditemui.');
+                }
+            } catch (error) {
+                console.error('Ralat fetching data pelajar:', error);
+                throw error;
+            }
+        }
+
+        // Fungsi untuk menyimpan markah ke Google Sheets
+        async function saveScore(rollNumber, score) {
+            const payload = {
+                action: 'saveScore',
+                rollNumber: rollNumber,
+                score: score
+            };
+            
+            try {
+                const response = await fetch(googleAppsScriptUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    console.log('Markah berjaya disimpan:', data);
+                    return true;
+                } else {
+                    console.error('Gagal menyimpan markah:', data);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Ralat rangkaian semasa menyimpan markah:', error);
+                return false;
+            }
+        }
+
         const quizData = [
             {
                 question: "Berapakah lebar semua garisan di atas padang futsal mengikut piawaian?",
@@ -314,7 +353,6 @@
         const questionText = document.getElementById('question-text');
         const answerOptions = document.getElementById('answer-options');
         const nextQuestionBtn = document.getElementById('next-question-btn');
-        const timerDisplay = document.getElementById('timer-display');
         
         const feedbackSection = document.getElementById('feedback-section');
         const feedbackText = document.getElementById('feedback-text');
@@ -331,69 +369,6 @@
         let score = 0;
         let userRollNumber = '';
         let currentStudent = null;
-        let hasCheated = false; // Flag untuk mengesan penipuan
-
-        // Fungsi untuk mengambil data pelajar dari Google Sheets
-        async function fetchStudentData(rollNumber) {
-            try {
-                const response = await fetch(`${googleAppsScriptUrl}?action=getStudents`);
-                const studentData = await response.json();
-                const student = studentData[rollNumber.toUpperCase()];
-                
-                if (student) {
-                    return student;
-                } else {
-                    throw new Error('Pelajar tidak ditemui.');
-                }
-            } catch (error) {
-                console.error('Ralat fetching data pelajar:', error);
-                throw error;
-            }
-        }
-
-        // Fungsi untuk menyimpan markah ke Google Sheets
-        async function saveScore(rollNumber, score) {
-            const payload = {
-                action: 'saveScore',
-                rollNumber: rollNumber,
-                score: score
-            };
-            
-            try {
-                const response = await fetch(googleAppsScriptUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    console.log('Markah berjaya disimpan:', data);
-                    return true;
-                } else {
-                    console.error('Gagal menyimpan markah:', data);
-                    return false;
-                }
-            } catch (error) {
-                console.error('Ralat rangkaian semasa menyimpan markah:', error);
-                return false;
-            }
-        }
-
-        // Fungsi untuk mengaktifkan mod skrin penuh
-        function enterFullScreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                document.documentElement.msRequestFullscreen();
-            }
-        }
 
         // Fungsi untuk memulakan kuiz
         function startQuiz() {
@@ -401,15 +376,10 @@
                 alert('Sila masukkan nombor angka giliran yang sah terlebih dahulu.');
                 return;
             }
-            
-            // Masuk ke mod skrin penuh apabila kuiz dimulakan
-            enterFullScreen();
-            
             loginScreen.classList.add('hidden');
             quizScreen.classList.remove('hidden');
             currentQuestionIndex = 0;
             score = 0;
-            hasCheated = false;
             displayQuestion();
         }
 
@@ -496,10 +466,6 @@
             } else {
                 message = "Jangan putus asa. Cuba lagi untuk tingkatkan pemahaman anda.";
             }
-            
-            if (hasCheated) {
-                message += " (Kuiz ditamatkan lebih awal kerana melanggar peraturan)";
-            }
             resultMessage.textContent = message;
 
             // Simpan markah ke Google Sheets
@@ -562,29 +528,6 @@
         startQuizBtn.addEventListener('click', startQuiz);
         nextQuestionBtn.addEventListener('click', handleNextButton);
         restartQuizBtn.addEventListener('click', restartQuiz);
-
-        // Skrip untuk mengesan tumpuan halaman (anti-cheating)
-        document.addEventListener("visibilitychange", function() {
-            if (document.hidden && !document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                if (!hasCheated && !window.confirm("Amaran: Kuiz akan ditamatkan jika anda beralih tetingkap atau aplikasi. Adakah anda ingin teruskan?")) {
-                     hasCheated = true;
-                     alert("Kuiz ditamatkan kerana anda cuba beralih halaman.");
-                     showResults(); // Tamatkan kuiz secara paksa
-                 }
-            }
-        });
-
-        // Mengesan apabila pengguna keluar dari mod skrin penuh
-        document.addEventListener("fullscreenchange", function() {
-            if (!document.fullscreenElement && quizScreen.classList.contains('hidden') === false) {
-                 if (!hasCheated && !window.confirm("Amaran: Keluar dari mod skrin penuh akan menamatkan kuiz. Adakah anda ingin teruskan?")) {
-                     hasCheated = true;
-                     alert("Kuiz ditamatkan kerana anda cuba keluar dari mod skrin penuh.");
-                     showResults(); // Tamatkan kuiz secara paksa
-                }
-            }
-        });
-
     </script>
 </body>
 </html>
